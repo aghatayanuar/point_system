@@ -48,6 +48,10 @@ app_license = "mit"
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
+doctype_js = {
+    "Sales Invoice": "public/js/sales_invoice.js"
+}
+
 # Svg Icons
 # ------------------
 # include app icons in desk
@@ -84,6 +88,8 @@ app_license = "mit"
 
 # before_install = "point_system.install.before_install"
 # after_install = "point_system.install.after_install"
+
+after_install = "point_system.utils.after_install"
 
 # Uninstallation
 # ------------
@@ -144,6 +150,15 @@ app_license = "mit"
 # 		"on_trash": "method"
 # 	}
 # }
+
+doc_events = {
+    "Sales Invoice": {
+        "validate": "point_system.utils.validate_redeem_points",
+        "before_submit": "point_system.utils.submit_redeem_points",
+        "on_cancel": "point_system.utils.cancel_redeem_points"
+    }
+}
+
 
 # Scheduled Tasks
 # ---------------

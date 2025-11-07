@@ -1,0 +1,105 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-11-07 11:07:02.051000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "customer",
+  "reference_doctype",
+  "reference_name",
+  "point_in",
+  "point_out",
+  "balance_after_transaction",
+  "remarks",
+  "is_cancel"
+ ],
+ "fields": [
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Customer",
+   "options": "Customer",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Data",
+   "label": "Reference Doctype",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Data",
+   "label": "Reference Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "point_in",
+   "fieldtype": "Float",
+   "label": "Point In",
+   "read_only": 1
+  },
+  {
+   "fieldname": "balance_after_transaction",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Balance After Transaction",
+   "read_only": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_cancel",
+   "fieldtype": "Check",
+   "label": "Is Cancel"
+  },
+  {
+   "fieldname": "point_out",
+   "fieldtype": "Float",
+   "label": "Point Out",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "in_create": 1,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-11-07 13:45:03.957988",
+ "modified_by": "Administrator",
+ "module": "Point System",
+ "name": "Point Ledger",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
