@@ -65,7 +65,8 @@
    "default": "0",
    "fieldname": "is_cancel",
    "fieldtype": "Check",
-   "label": "Is Cancel"
+   "label": "Is Cancel",
+   "read_only": 1
   },
   {
    "fieldname": "point_out",
@@ -78,7 +79,7 @@
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-11-07 13:45:03.957988",
+ "modified": "2025-11-07 15:39:14.957610",
  "modified_by": "Administrator",
  "module": "Point System",
  "name": "Point Ledger",

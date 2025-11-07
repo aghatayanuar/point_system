@@ -59,16 +59,20 @@ def submit_redeem_points(doc, method):
             "customer": doc.customer,
             "point": doc.custom_redeem_point,
             "reason": f"Redeem from Sales Invoice {doc.name}",
-            "date": doc.posting_date
+            "date": doc.posting_date,
+            "reference_sales_invoice": doc.name 
         })
         reduce_point.insert()
         reduce_point.submit()
 
 def cancel_redeem_points(doc, method):
     if doc.custom_redeem_point and doc.custom_redeem_point > 0:
-        rp_list = frappe.get_all("Reduce Point",
-            filters={"reason": f"Redeem from Sales Invoice {doc.name}"},
-            fields=["name"])
+        rp_list = frappe.get_all(
+            "Reduce Point",
+            filters={"reference_sales_invoice": doc.name},
+            fields=["name", "docstatus"]
+        )
         for rp in rp_list:
             rp_doc = frappe.get_doc("Reduce Point", rp.name)
-            rp_doc.cancel()
+            if rp_doc.docstatus == 1:
+                rp_doc.cancel()

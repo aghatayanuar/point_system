@@ -9,7 +9,8 @@
   "customer",
   "point",
   "reason",
-  "amended_from"
+  "amended_from",
+  "reference_sales_invoice"
  ],
  "fields": [
   {
@@ -48,13 +49,18 @@
    "fieldtype": "Date",
    "label": "Date",
    "reqd": 1
+  },
+  {
+   "fieldname": "reference_sales_invoice",
+   "fieldtype": "Data",
+   "label": "Reference Sales Invoice"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-11-07 14:01:17.841892",
+ "modified": "2025-11-07 15:39:44.643683",
  "modified_by": "Administrator",
  "module": "Point System",
  "name": "Reduce Point",
