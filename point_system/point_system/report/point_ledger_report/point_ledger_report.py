@@ -69,7 +69,7 @@ def get_data(filters):
         from
             `tabPoint Ledger`
         {condition_str}
-        order by date asc
+        order by date,creation asc
     """
 
     data = frappe.db.sql(query, values, as_dict=True)
