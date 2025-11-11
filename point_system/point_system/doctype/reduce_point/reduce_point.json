@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "RP-.YY.MM.DD.-.#####  ",
  "creation": "2025-11-07 11:26:20.565894",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -52,18 +53,20 @@
   },
   {
    "fieldname": "reference_sales_invoice",
-   "fieldtype": "Data",
-   "label": "Reference Sales Invoice"
+   "fieldtype": "Link",
+   "label": "Reference Sales Invoice",
+   "options": "Sales Invoice"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-11-07 15:39:44.643683",
+ "modified": "2025-11-11 10:00:18.727020",
  "modified_by": "Administrator",
  "module": "Point System",
  "name": "Reduce Point",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {

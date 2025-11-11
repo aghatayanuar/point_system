@@ -52,7 +52,7 @@ class ReducePoint(Document):
             "doctype": "Point Ledger",
             "date": nowdate(),
             "customer": self.customer,
-            "reference_doctype": "Reduce Point (Cancelled)",
+            "reference_doctype": "Reduce Point",
             "reference_name": self.name,
             "point_in": self.point,
             "point_out": 0,

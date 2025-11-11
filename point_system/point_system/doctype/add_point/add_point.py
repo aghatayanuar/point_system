@@ -45,7 +45,7 @@ class AddPoint(Document):
             "doctype": "Point Ledger",
             "date": nowdate(),
             "customer": self.customer,
-            "reference_doctype": "Add Point (Cancelled)",
+            "reference_doctype": "Add Point",
             "reference_name": self.name,
             "point_in": 0,
             "point_out": self.point,
