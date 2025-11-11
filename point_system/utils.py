@@ -5,6 +5,8 @@ from frappe.utils import flt, nowdate
 
 def after_install():
     create_sales_invoice_custom_fields()
+    hide_loyalty_section()
+    set_loyalty_user_cannot_search()
 
 def create_sales_invoice_custom_fields():
     custom_fields = {
@@ -76,3 +78,55 @@ def cancel_redeem_points(doc, method):
             rp_doc = frappe.get_doc("Reduce Point", rp.name)
             if rp_doc.docstatus == 1:
                 rp_doc.cancel()
+
+def hide_loyalty_section():
+    try:
+        ps = frappe.get_all(
+            "Property Setter",
+            filters={
+                "doc_type": "Sales Invoice",
+                "field_name": "loyalty_points_redemption",
+                "property": "hidden"
+            },
+            fields=["name"]
+        )
+
+        if ps:
+            print("Property Setter untuk hide section 'loyalty_points_redemption' sudah ada.")
+        else:
+            doc = frappe.get_doc({
+                "doctype": "Property Setter",
+                "doc_type": "Sales Invoice",
+                "field_name": "loyalty_points_redemption",
+                "property": "hidden",
+                "value": 1,
+                "property_type": "Check",
+                "doctype_or_field": "DocField"  
+            })
+            doc.insert(ignore_permissions=True)
+            print("Section 'Loyalty Points Redemption' di-hide via Property Setter.")
+
+        frappe.clear_cache(doctype="Sales Invoice")
+
+    except Exception as e:
+        frappe.log_error(message=str(e), title="Error hide Section 'Loyalty Points Redemption'")
+        print("Gagal hide Section 'Loyalty Points Redemption'.")
+
+
+def set_loyalty_user_cannot_search():
+    try:
+        doctypes = ["Loyalty Program", "Loyalty Point Entry"]
+
+        for doctype in doctypes:
+            doc = frappe.get_doc("DocType", doctype)
+            if doc.read_only != 1:
+                doc.read_only = 1
+                doc.save(ignore_permissions=True)
+
+        frappe.clear_cache()
+        print("Loyalty Program & Loyalty Point Entry: User Cannot Search di-set")
+    
+    except Exception as e:
+        frappe.log_error(message=str(e), title="Error setting User Cannot Search")
+        print("Gagal set User Cannot Search di Loyalty Program & Loyalty Point Entry")
+
