@@ -6,7 +6,7 @@ from frappe.utils import flt, nowdate
 def after_install():
     create_sales_invoice_custom_fields()
     hide_loyalty_section()
-    set_loyalty_user_cannot_search()
+    set_loyalty_restricted_permissions()
 
 def create_sales_invoice_custom_fields():
     custom_fields = {
@@ -112,21 +112,48 @@ def hide_loyalty_section():
         frappe.log_error(message=str(e), title="Error hide Section 'Loyalty Points Redemption'")
         print("Gagal hide Section 'Loyalty Points Redemption'.")
 
-
-def set_loyalty_user_cannot_search():
-    try:
-        doctypes = ["Loyalty Program", "Loyalty Point Entry"]
-
-        for doctype in doctypes:
-            doc = frappe.get_doc("DocType", doctype)
-            if doc.read_only != 1:
-                doc.read_only = 1
-                doc.save(ignore_permissions=True)
-
-        frappe.clear_cache()
-        print("Loyalty Program & Loyalty Point Entry: User Cannot Search di-set")
+def set_loyalty_restricted_permissions():
     
-    except Exception as e:
-        frappe.log_error(message=str(e), title="Error setting User Cannot Search")
-        print("Gagal set User Cannot Search di Loyalty Program & Loyalty Point Entry")
+    role_name = "Loyalty Restricted"
+    doctypes = ["Loyalty Program", "Loyalty Point Entry"]
 
+    if not frappe.db.exists("Role", role_name):
+        role = frappe.get_doc({"doctype": "Role", "role_name": role_name})
+        role.insert(ignore_permissions=True)
+        frappe.db.commit()
+        print(f"Role '{role_name}' dibuat")
+
+    for dt in doctypes:
+        frappe.db.sql(
+            """
+            DELETE FROM `tabCustom DocPerm`
+            WHERE parent=%s AND role=%s
+            """,
+            (dt, role_name),
+        )
+
+        frappe.get_doc({
+            "doctype": "Custom DocPerm",
+            "parent": dt,
+            "parenttype": "DocType",
+            "parentfield": "permissions",
+            "role": role_name,
+            "read": 0,
+            "write": 0,
+            "create": 0,
+            "delete": 0,
+        }).insert(ignore_permissions=True)
+
+    frappe.db.commit()
+    print("Permissions untuk 'Loyalty Restricted' di-set")
+
+    users = frappe.get_all("User", filters={"enabled": 1, "name": ("!=","Guest")})
+    for u in users:
+        try:
+            if role_name not in frappe.get_roles(u.name):
+                frappe.get_doc("User", u.name).add_roles(role_name)
+        except Exception as e:
+            frappe.log_error(f"Error assign {role_name} ke {u.name}: {str(e)}")
+
+    frappe.db.commit()
+    print(f"Role '{role_name}' diassign ke semua user aktif")
